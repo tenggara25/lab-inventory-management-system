@@ -139,12 +139,15 @@ Password untuk semua akun demo bawaan adalah **`admin123`**:
 ### Autentikasi (`/api/auth`)
 - `POST /api/auth/register` - Pendaftaran akun pengguna baru.
 - `POST /api/auth/login` - Otentikasi & pembuatan JWT token.
+- `GET /api/auth/me` - Mengambil profil user yang sedang login.
+- `POST /api/auth/logout` - Logout / mengakhiri sesi autentikasi.
 
 ### Inventaris Barang (`/api/barang`)
 - `GET /api/barang?page=1&limit=10&search=&kondisi=&kategoriId=` - Menampilkan daftar barang (Pagination, Search, Filter).
 - `GET /api/barang/:id` - Menampilkan detail barang berdasarkan ID.
 - `POST /api/barang` - Menambah barang baru (Memerlukan token Admin/Operator + multipart image upload).
 - `PUT /api/barang/:id` - Memperbarui data barang (Memerlukan token Admin/Operator + multipart image upload).
+- `POST /api/barang/:id/upload` - Mengunggah / memperbarui foto barang saja (Memerlukan token Admin/Operator).
 - `DELETE /api/barang/:id` - Menghapus data barang (Memerlukan token Admin).
 
 ### Kategori (`/api/kategori`)
@@ -158,4 +161,5 @@ Password untuk semua akun demo bawaan adalah **`admin123`**:
 - `POST /api/users` - Menambah user baru oleh admin (Khusus Admin).
 - `PUT /api/users/:id` - Memperbarui profil user (Khusus Admin).
 - `DELETE /api/users/:id` - Menghapus user (Khusus Admin).
-- `PUT /api/users/:id/password` - Reset password user oleh admin (Khusus Admin).
+- `POST /api/users/:id/reset-password` - Reset password user oleh admin (Khusus Admin).
+

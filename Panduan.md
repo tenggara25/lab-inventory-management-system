@@ -530,7 +530,9 @@ router.get('/', verifyToken, getAllBarang);
 router.get('/:id', verifyToken, getBarangById);
 router.post('/', verifyToken, requireRole('admin', 'operator'), upload.single('gambar'), createBarang);
 router.put('/:id', verifyToken, requireRole('admin', 'operator'), upload.single('gambar'), updateBarang);
+router.post('/:id/upload', verifyToken, requireRole('admin', 'operator'), upload.single('gambar'), uploadBarangImage);
 router.delete('/:id', verifyToken, requireRole('admin'), deleteBarang);
+
 
 export default router;
 ```
