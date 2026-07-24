@@ -83,12 +83,11 @@ export const remove = async (req: AuthRequest, res: Response) => {
 
 export const resetPassword = async (req: AuthRequest, res: Response) => {
   try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ success: false, errors: errors.array() });
+    const newPassword = req.body.newPassword || req.body.password;
+    if (!newPassword || typeof newPassword !== 'string' || newPassword.trim().length < 6) {
+      return res.status(400).json({ success: false, message: 'Password minimal 6 karakter' });
     }
 
-    const { newPassword } = req.body;
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
     const [result]: any = await pool.query(
@@ -104,6 +103,7 @@ export const resetPassword = async (req: AuthRequest, res: Response) => {
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }
-};            
+};
+            
 
 

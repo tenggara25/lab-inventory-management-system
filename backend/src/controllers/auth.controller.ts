@@ -96,6 +96,12 @@ export const getMe = async (req: AuthRequest, res: Response) => {
   }
 };
 
+// POST /api/auth/logout
+export const logout = async (req: Request, res: Response) => {
+  res.json({ success: true, message: 'Logout berhasil' });
+};
+
+
         
 
 

@@ -198,3 +198,36 @@ export const deleteBarang = async (req: AuthRequest, res: Response) => {
     res.status(500).json({ success: false, message: error.message || 'Server Error', error: error.message });
   }
 };
+
+export const uploadBarangImage = async (req: AuthRequest, res: Response) => {
+  try {
+    const { id } = req.params;
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'Tidak ada file gambar yang diunggah' });
+    }
+
+    const [existingBarang]: any = await pool.query('SELECT * FROM Barang WHERE id = ?', [id]);
+    if (existingBarang.length === 0) {
+      return res.status(404).json({ success: false, message: 'Barang tidak ditemukan' });
+    }
+
+    if (existingBarang[0].gambar) {
+      const oldPath = path.join(__dirname, '../../uploads', existingBarang[0].gambar);
+      if (fs.existsSync(oldPath)) {
+        fs.unlinkSync(oldPath);
+      }
+    }
+
+    const filename = req.file.filename;
+    await pool.query('UPDATE Barang SET gambar = ? WHERE id = ?', [filename, id]);
+
+    res.json({
+      success: true,
+      message: 'Foto barang berhasil diperbarui',
+      data: { gambar: filename }
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message || 'Server Error', error: error.message });
+  }
+};
+
